@@ -43,6 +43,9 @@ java -jar java-xml-grepper.jar \
 1.0.1
 ```
 
+If something happens like parsing errors, file not found a.s.o the **exit code will be 1**.
+Otherwise the exit code will be 0 and it will only print the grepped output.
+
 -----
 &nbsp;
 
