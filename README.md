@@ -36,7 +36,7 @@ curl -L -o java-xml-grepper.jar \
 
 # RUN
 java -jar java-xml-grepper.jar \
-     -i pom.xml \
+     -f pom.xml \
      -x /project/version
      
 # PRINTS (example)
@@ -56,7 +56,7 @@ curl -L -o java-xml-grepper.jar \
      https://github.com/codeclou/java-xml-grepper/releases/download/1.0.0/java-xml-grepper.jar
 
 java -jar java-xml-grepper.jar \
-     -i pom.xml \
+     -f pom.xml \
      -x /project/version
 
 # Should print the version
