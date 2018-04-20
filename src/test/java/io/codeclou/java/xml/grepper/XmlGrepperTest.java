@@ -27,20 +27,37 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 
 public class XmlGrepperTest {
 
-    @Rule
-    public PreventExitTestRule preventExit = new PreventExitTestRule();
+    // NOTE: Bazel has its own GoogleSecurityManager that prevents System.exit()
+    //@Rule
+    //public PreventExitTestRule preventExit = new PreventExitTestRule();
 
-    private File getTestFile(String filename) {
+    private File getTestFile(String filename) throws IOException {
+        // Since Bazel creates a test.jar somewhere we need to extract the testfile
+        // out of the jar and put it accessible on the Filesystem somewhere to e.g. /tmp/
         ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource(filename).getFile());
+        InputStream inputstream = classLoader.getResource(filename).openStream();
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(inputstream, writer, "utf-8");
+        String fileContent = writer.toString();
+        File testFileOutsideTestJar = File.createTempFile("xmlgrepper", ".dat");
+        FileUtils.write(testFileOutsideTestJar, fileContent, "utf-8");
+        return testFileOutsideTestJar;
     }
 
     @Test
@@ -82,7 +99,8 @@ public class XmlGrepperTest {
 
     @Test
     public void testRunValidInputWithValidXpath() throws Exception {
-        String[] args = {"-f=src/test/resources/pom-1-test.xml", "-x=foo"};
+        File pomXMl = getTestFile("pom-1-test.xml");
+        String[] args = {"-f=" + pomXMl.getAbsolutePath(), "-x=foo"};
         XmlGrepper grepper = new XmlGrepper();
         grepper.run(args);
         Boolean hasCmdLineParameterErrors = (Boolean) Whitebox.getInternalState(grepper, "hasCmdLineParameterErrors");
@@ -93,7 +111,8 @@ public class XmlGrepperTest {
 
     @Test()
     public void testRunValidInputWithInValidXpath() throws Exception {
-        String[] args = {"-f=src/test/resources/pom-1-test.xml", "-x=???S?Sßß"};
+        File pomXMl = getTestFile("pom-1-test.xml");
+        String[] args = {"-f=" + pomXMl.getAbsolutePath(), "-x=???S?Sßß"};
         XmlGrepper grepper = new XmlGrepper();
         try {
             grepper.run(args);

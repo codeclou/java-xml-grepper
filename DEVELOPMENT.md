@@ -1,18 +1,35 @@
 # Development
 
+### Doc
+
+We build with bazel:
+
+ * https://docs.bazel.build/versions/master/tutorial/java.html
+ * https://github.com/bazelbuild/examples/tree/master/java-maven
+ * https://github.com/johnynek/bazel-deps
+
+"Fat-Jar":
+
+ * https://docs.bazel.build/versions/master/tutorial/java.html#package-a-java-target-for-deployment
+
+
+### Run Tests
+
+```
+bazel test :tests
+```
+
 ### Build
 
 ```
-mvn package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
-java -jar target/java-xml-grepper.jar
+# JAR / BINARY
+bazel build //:java-xml-grepper
+
+./bazel-bin/java-xml-grepper
+
+
+# FAT JAR
+bazel build //:java-xml-grepper_deploy.jar
+
+java -jar bazel-bin/java-xml-grepper_deploy.jar
 ```
-
-### Testcoverage
-
-[Run OpenClover](http://openclover.org/) with maven:
-
-```bash
-mvn clean clover:setup test clover:aggregate clover:clover
-```
-
-Now look into `target/site/clover/`
