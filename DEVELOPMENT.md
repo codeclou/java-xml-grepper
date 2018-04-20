@@ -19,6 +19,25 @@ We build with bazel:
 bazel test :tests
 ```
 
+Use Bazel Watcher for tests: https://github.com/bazelbuild/bazel-watcher
+
+Install
+```
+cd ~/git
+git clone https://github.com/bazelbuild/bazel-watcher.git
+cd bazel-watcher
+bazel build //ibazel
+
+# Add to .bash_profile
+echo 'export PATH="$PATH:$HOME/git/bazel-watcher/bazel-bin/ibazel/darwin_amd64_pure_stripped/"' >> ~/.bash_profile
+```
+
+Test with watcher
+
+```
+ibazel test :tests
+```
+
 ### Build
 
 ```
