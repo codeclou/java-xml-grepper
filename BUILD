@@ -21,7 +21,6 @@ java_test(
     resources=glob(['src/test/resources/**/*']),
     deps = [
         ":java-xml-grepper-lib",
-        "@commons_cli//jar",
         # TEST SCOPE
         "@openpojo//jar",
         "@commons_io//jar",
