@@ -5,7 +5,6 @@ java_library(
     srcs = glob(["src/main/java/io/codeclou/java/xml/grepper/*.java"]),
     deps = [
         "@commons_cli//jar",
-        "@openpojo//jar",
     ],
 )
 
@@ -23,8 +22,8 @@ java_test(
     deps = [
         ":java-xml-grepper-lib",
         "@commons_cli//jar",
-        "@openpojo//jar",
         # TEST SCOPE
+        "@openpojo//jar",
         "@commons_io//jar",
         "@junit//jar",
         "@powermock_api_support//jar",
