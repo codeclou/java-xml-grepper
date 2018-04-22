@@ -6,14 +6,14 @@ maven_jar(
     artifact = "commons-cli:commons-cli:1.4",
     server = "maven_central_server",
 )
+#
+# TEST SCOPE
+#
 maven_jar(
     name = "openpojo",
     artifact = "com.openpojo:openpojo:0.8.6",
     server = "maven_central_server",
 )
-#
-# TEST SCOPE
-#
 maven_jar(
     name = "commons_io",
     artifact = "commons-io:commons-io:jar:2.6",
