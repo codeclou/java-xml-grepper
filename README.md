@@ -1,6 +1,6 @@
 # java-xml-grepper
 
-You want to get value from your xml file using XPath? Then this is for you.
+You want to get a value from your xml file using XPath? Then this is for you.
 
 ----
 &nbsp;
