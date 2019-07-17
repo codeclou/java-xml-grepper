@@ -1,5 +1,7 @@
 # java-xml-grepper
 
+[![](https://codeclou.github.io/java-xml-grepper/img/github-product-logo-java-grepper.png)](https://github.com/codeclou/java-xml-grepper)
+
 You want to get a value from your xml file using XPath? Then this is for you.
 
 ----
