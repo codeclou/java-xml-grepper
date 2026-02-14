@@ -27,7 +27,8 @@ public class Main {
 
     public static void main(String [] args) throws Exception {
         XmlGrepper xmlGrepper = new XmlGrepper();
-        xmlGrepper.run(args);
+        Boolean hasErrors = xmlGrepper.run(args);
+        System.exit(hasErrors ? 1 : 0);
     }
 
 }
