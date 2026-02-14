@@ -45,9 +45,9 @@ import java.io.IOException;
 public class XmlGrepper {
 
     private CommandLineParser parser = new DefaultParser();
-    private Options options = new Options();
-    private Boolean hasCmdLineParameterErrors = false;
-    private Boolean hasFileNotFoundErrors = false;
+    protected Options options = new Options();
+    protected Boolean hasCmdLineParameterErrors = false;
+    protected Boolean hasFileNotFoundErrors = false;
 
     protected String parseXml(String xpathExpression, File xmlFile) throws FileNotFoundException, ParserConfigurationException, SAXException, IOException, XPathExpressionException {
         FileInputStream fileIS = new FileInputStream(xmlFile);
@@ -58,7 +58,7 @@ public class XmlGrepper {
         return (String) xPath.compile(xpathExpression).evaluate(xmlDocument, XPathConstants.STRING);
     }
 
-    protected void run(String[] args) throws Exception {
+    protected boolean run(String[] args) throws Exception {
         //
         // ONLY OUTPUT STUFF ON ERROR!
         //
@@ -87,9 +87,10 @@ public class XmlGrepper {
                 } catch (Exception e) {
                     System.out.println("\033[31;1mError >> Parse Exception\033[0m");
                     System.out.println(e.getMessage());
-                    System.exit(1);
+                    return true;
                 }
             }
         }
+        return false;
     }
 }

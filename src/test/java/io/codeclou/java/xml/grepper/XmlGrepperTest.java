@@ -23,29 +23,21 @@
  */
 package io.codeclou.java.xml.grepper;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 
-import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XmlGrepperTest {
-
-    // NOTE: Bazel has its own GoogleSecurityManager that prevents System.exit()
-    //@Rule
-    //public PreventExitTestRule preventExit = new PreventExitTestRule();
 
     private File getTestFile(String filename) throws IOException {
         // Since Bazel creates a test.jar somewhere we need to extract the testfile
@@ -75,7 +67,7 @@ public class XmlGrepperTest {
         String[] args = {};
         XmlGrepper grepper = new XmlGrepper();
         grepper.run(args);
-        Boolean hasCmdLineParameterErrors = (Boolean) Whitebox.getInternalState(grepper, "hasCmdLineParameterErrors");
+        Boolean hasCmdLineParameterErrors = grepper.hasCmdLineParameterErrors;
         assertTrue(hasCmdLineParameterErrors);
     }
 
@@ -84,7 +76,7 @@ public class XmlGrepperTest {
         String[] args = {"-x=foo"};
         XmlGrepper grepper = new XmlGrepper();
         grepper.run(args);
-        Boolean hasCmdLineParameterErrors = (Boolean) Whitebox.getInternalState(grepper, "hasCmdLineParameterErrors");
+        Boolean hasCmdLineParameterErrors = grepper.hasCmdLineParameterErrors;
         assertTrue(hasCmdLineParameterErrors);
     }
 
@@ -93,7 +85,7 @@ public class XmlGrepperTest {
         String[] args = {"-x=foo", "-f=?x/bar.xml"};
         XmlGrepper grepper = new XmlGrepper();
         grepper.run(args);
-        Boolean hasFileNotFoundErrors = (Boolean) Whitebox.getInternalState(grepper, "hasFileNotFoundErrors");
+        Boolean hasFileNotFoundErrors = grepper.hasFileNotFoundErrors;
         assertTrue(hasFileNotFoundErrors);
     }
 
@@ -103,9 +95,9 @@ public class XmlGrepperTest {
         String[] args = {"-f=" + pomXMl.getAbsolutePath(), "-x=foo"};
         XmlGrepper grepper = new XmlGrepper();
         grepper.run(args);
-        Boolean hasCmdLineParameterErrors = (Boolean) Whitebox.getInternalState(grepper, "hasCmdLineParameterErrors");
+        Boolean hasCmdLineParameterErrors = grepper.hasCmdLineParameterErrors;
         assertFalse(hasCmdLineParameterErrors);
-        Boolean hasFileNotFoundErrors = (Boolean) Whitebox.getInternalState(grepper, "hasFileNotFoundErrors");
+        Boolean hasFileNotFoundErrors = grepper.hasFileNotFoundErrors;
         assertFalse(hasFileNotFoundErrors);
     }
 
@@ -119,9 +111,9 @@ public class XmlGrepperTest {
         } catch (SecurityException e) {
             // expected
         }
-        Boolean hasCmdLineParameterErrors = (Boolean) Whitebox.getInternalState(grepper, "hasCmdLineParameterErrors");
+        Boolean hasCmdLineParameterErrors = grepper.hasCmdLineParameterErrors;
         assertFalse(hasCmdLineParameterErrors);
-        Boolean hasFileNotFoundErrors = (Boolean) Whitebox.getInternalState(grepper, "hasFileNotFoundErrors");
+        Boolean hasFileNotFoundErrors = grepper.hasFileNotFoundErrors;
         assertFalse(hasFileNotFoundErrors);
     }
 
